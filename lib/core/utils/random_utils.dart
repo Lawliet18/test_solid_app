@@ -25,6 +25,16 @@ class RandomUtils {
     return Size(width, height);
   }
 
+  /// generate a random offset
+  static Offset generateRandomOffset(Size containerSize, Size maxSize) {
+    final width =
+        Random().nextInt((maxSize.width - containerSize.width).toInt());
+    final height =
+        Random().nextInt((maxSize.height - containerSize.height).toInt());
+
+    return Offset(width.toDouble(), height.toDouble());
+  }
+
   /// generate a random radius
   static double generateRandomRadius(int max) =>
       Random().nextInt(max).toDouble();

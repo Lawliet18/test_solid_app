@@ -19,37 +19,46 @@ class _HomePageState extends State<HomePage> {
   late final Size _maxSize = MediaQuery.sizeOf(context);
 
   double _radius = 0;
+  Offset _offset = Offset.zero;
 
   late Color _color = RandomUtils.generateRandomColor();
   late Size _size = _maxSize;
 
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: _updateScreen,
-      onLongPress: _resetScreen,
-      child: Scaffold(
-        backgroundColor: Colors.blueGrey.shade100,
-        body: Center(
-          child: AnimatedContainer(
+    return Scaffold(
+      backgroundColor: Colors.blueGrey.shade100,
+      body: Stack(
+        children: [
+          AnimatedPositioned(
             duration: _animationDuration,
-            curve: _animationCurve,
-            width: _size.width,
-            height: _size.height,
-            decoration: BoxDecoration(
-              color: _color,
-              borderRadius: BorderRadius.circular(_radius),
-            ),
-            alignment: Alignment.center,
-            child: const Text(
-              'Hello there',
-              style: TextStyle(
-                color: Colors.white,
-                fontSize: 24,
+            left: _offset.dx,
+            top: _offset.dy,
+            curve: Curves.decelerate,
+            child: GestureDetector(
+              onTap: _updateScreen,
+              onLongPress: _resetScreen,
+              child: AnimatedContainer(
+                duration: _animationDuration,
+                curve: _animationCurve,
+                width: _size.width,
+                height: _size.height,
+                decoration: BoxDecoration(
+                  color: _color,
+                  borderRadius: BorderRadius.circular(_radius),
+                ),
+                alignment: Alignment.center,
+                child: const Text(
+                  'Hello there',
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 24,
+                  ),
+                ),
               ),
             ),
           ),
-        ),
+        ],
       ),
     );
   }
@@ -59,6 +68,7 @@ class _HomePageState extends State<HomePage> {
       _color = RandomUtils.generateRandomColor();
       _size = RandomUtils.generateRandomSize(_minSize, _maxSize);
       _radius = RandomUtils.generateRandomRadius(_maxRadius);
+      _offset = RandomUtils.generateRandomOffset(_size, _maxSize);
     });
   }
 
@@ -67,6 +77,7 @@ class _HomePageState extends State<HomePage> {
       _color = RandomUtils.generateRandomColor();
       _size = _maxSize;
       _radius = 0;
+      _offset = Offset.zero;
     });
   }
 }
